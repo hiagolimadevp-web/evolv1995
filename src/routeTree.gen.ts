@@ -9,38 +9,82 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
+import { Route as OnboardingCountryRouteImport } from './routes/onboarding.country'
 
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
+  id: '/language',
+  path: '/language',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const OnboardingCountryRoute = OnboardingCountryRouteImport.update({
+  id: '/country',
+  path: '/country',
+  getParentRoute: () => OnboardingRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRouteWithChildren
+  '/onboarding/country': typeof OnboardingCountryRoute
+  '/onboarding/language': typeof OnboardingLanguageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRouteWithChildren
+  '/onboarding/country': typeof OnboardingCountryRoute
+  '/onboarding/language': typeof OnboardingLanguageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRouteWithChildren
+  '/onboarding/country': typeof OnboardingCountryRoute
+  '/onboarding/language': typeof OnboardingLanguageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/onboarding'
+    | '/onboarding/country'
+    | '/onboarding/language'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/onboarding' | '/onboarding/country' | '/onboarding/language'
+  id:
+    | '__root__'
+    | '/'
+    | '/onboarding'
+    | '/onboarding/country'
+    | '/onboarding/language'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OnboardingRoute: typeof OnboardingRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +92,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding/language': {
+      id: '/onboarding/language'
+      path: '/language'
+      fullPath: '/onboarding/language'
+      preLoaderRoute: typeof OnboardingLanguageRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/onboarding/country': {
+      id: '/onboarding/country'
+      path: '/country'
+      fullPath: '/onboarding/country'
+      preLoaderRoute: typeof OnboardingCountryRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
   }
 }
 
+interface OnboardingRouteChildren {
+  OnboardingCountryRoute: typeof OnboardingCountryRoute
+  OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+}
+
+const OnboardingRouteChildren: OnboardingRouteChildren = {
+  OnboardingCountryRoute: OnboardingCountryRoute,
+  OnboardingLanguageRoute: OnboardingLanguageRoute,
+}
+
+const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
+  OnboardingRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OnboardingRoute: OnboardingRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
