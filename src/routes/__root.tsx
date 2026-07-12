@@ -82,9 +82,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "EVOLV — Progress, not perfection" },
       { name: "description", content: "EVOLV is a premium personal growth companion for building healthier habits — nutrition, water, workouts, sleep and mindful savings, all with kind, positive motivation." },
       { property: "og:title", content: "EVOLV — Progress, not perfection" },
-      { property: "og:description", content: "Your personal growth companion for healthier habits." },
+      { property: "og:description", content: "EVOLV is a premium personal growth companion for building healthier habits — nutrition, water, workouts, sleep and mindful savings, all with kind, positive motivation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "EVOLV — Progress, not perfection" },
+      { name: "twitter:description", content: "EVOLV is a premium personal growth companion for building healthier habits — nutrition, water, workouts, sleep and mindful savings, all with kind, positive motivation." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e74c0d30-04ff-4d82-9d21-6a700707a374/id-preview-28703feb--69fe72c2-be9b-4f24-bca3-fa9122267d7f.lovable.app-1783899221612.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e74c0d30-04ff-4d82-9d21-6a700707a374/id-preview-28703feb--69fe72c2-be9b-4f24-bca3-fa9122267d7f.lovable.app-1783899221612.png" },
     ],
     links: [
       {
