@@ -16,7 +16,10 @@ import { Route as OnboardingProfileRouteImport } from './routes/onboarding.profi
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
 import { Route as OnboardingGoalRouteImport } from './routes/onboarding.goal'
 import { Route as OnboardingCountryRouteImport } from './routes/onboarding.country'
+import { Route as AppWaterRouteImport } from './routes/_app.water'
 import { Route as AppTodayRouteImport } from './routes/_app.today'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppProgressRouteImport } from './routes/_app.progress'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -53,9 +56,24 @@ const OnboardingCountryRoute = OnboardingCountryRouteImport.update({
   path: '/country',
   getParentRoute: () => OnboardingRoute,
 } as any)
+const AppWaterRoute = AppWaterRouteImport.update({
+  id: '/water',
+  path: '/water',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTodayRoute = AppTodayRouteImport.update({
   id: '/today',
   path: '/today',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProgressRoute = AppProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHomeRoute = AppHomeRouteImport.update({
@@ -68,7 +86,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/home': typeof AppHomeRoute
+  '/progress': typeof AppProgressRoute
+  '/settings': typeof AppSettingsRoute
   '/today': typeof AppTodayRoute
+  '/water': typeof AppWaterRoute
   '/onboarding/country': typeof OnboardingCountryRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
@@ -78,7 +99,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/home': typeof AppHomeRoute
+  '/progress': typeof AppProgressRoute
+  '/settings': typeof AppSettingsRoute
   '/today': typeof AppTodayRoute
+  '/water': typeof AppWaterRoute
   '/onboarding/country': typeof OnboardingCountryRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
@@ -90,7 +114,10 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRouteWithChildren
   '/_app/home': typeof AppHomeRoute
+  '/_app/progress': typeof AppProgressRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/today': typeof AppTodayRoute
+  '/_app/water': typeof AppWaterRoute
   '/onboarding/country': typeof OnboardingCountryRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
@@ -102,7 +129,10 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/home'
+    | '/progress'
+    | '/settings'
     | '/today'
+    | '/water'
     | '/onboarding/country'
     | '/onboarding/goal'
     | '/onboarding/language'
@@ -112,7 +142,10 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/home'
+    | '/progress'
+    | '/settings'
     | '/today'
+    | '/water'
     | '/onboarding/country'
     | '/onboarding/goal'
     | '/onboarding/language'
@@ -123,7 +156,10 @@ export interface FileRouteTypes {
     | '/_app'
     | '/onboarding'
     | '/_app/home'
+    | '/_app/progress'
+    | '/_app/settings'
     | '/_app/today'
+    | '/_app/water'
     | '/onboarding/country'
     | '/onboarding/goal'
     | '/onboarding/language'
@@ -187,11 +223,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingCountryRouteImport
       parentRoute: typeof OnboardingRoute
     }
+    '/_app/water': {
+      id: '/_app/water'
+      path: '/water'
+      fullPath: '/water'
+      preLoaderRoute: typeof AppWaterRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/today': {
       id: '/_app/today'
       path: '/today'
       fullPath: '/today'
       preLoaderRoute: typeof AppTodayRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/progress': {
+      id: '/_app/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof AppProgressRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/home': {
@@ -206,12 +263,18 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppHomeRoute: typeof AppHomeRoute
+  AppProgressRoute: typeof AppProgressRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTodayRoute: typeof AppTodayRoute
+  AppWaterRoute: typeof AppWaterRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppHomeRoute: AppHomeRoute,
+  AppProgressRoute: AppProgressRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTodayRoute: AppTodayRoute,
+  AppWaterRoute: AppWaterRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
