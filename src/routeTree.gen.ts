@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OnboardingProfileRouteImport } from './routes/onboarding.profile'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
+import { Route as OnboardingGoalRouteImport } from './routes/onboarding.goal'
 import { Route as OnboardingCountryRouteImport } from './routes/onboarding.country'
 
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -24,9 +26,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingProfileRoute = OnboardingProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => OnboardingRoute,
+} as any)
 const OnboardingLanguageRoute = OnboardingLanguageRouteImport.update({
   id: '/language',
   path: '/language',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const OnboardingGoalRoute = OnboardingGoalRouteImport.update({
+  id: '/goal',
+  path: '/goal',
   getParentRoute: () => OnboardingRoute,
 } as any)
 const OnboardingCountryRoute = OnboardingCountryRouteImport.update({
@@ -39,20 +51,26 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/onboarding/country': typeof OnboardingCountryRoute
+  '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/profile': typeof OnboardingProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/onboarding/country': typeof OnboardingCountryRoute
+  '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/profile': typeof OnboardingProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
   '/onboarding/country': typeof OnboardingCountryRoute
+  '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
+  '/onboarding/profile': typeof OnboardingProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -60,15 +78,25 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/onboarding/country'
+    | '/onboarding/goal'
     | '/onboarding/language'
+    | '/onboarding/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/onboarding' | '/onboarding/country' | '/onboarding/language'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/onboarding/country'
+    | '/onboarding/goal'
+    | '/onboarding/language'
+    | '/onboarding/profile'
   id:
     | '__root__'
     | '/'
     | '/onboarding'
     | '/onboarding/country'
+    | '/onboarding/goal'
     | '/onboarding/language'
+    | '/onboarding/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -92,11 +120,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding/profile': {
+      id: '/onboarding/profile'
+      path: '/profile'
+      fullPath: '/onboarding/profile'
+      preLoaderRoute: typeof OnboardingProfileRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
     '/onboarding/language': {
       id: '/onboarding/language'
       path: '/language'
       fullPath: '/onboarding/language'
       preLoaderRoute: typeof OnboardingLanguageRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/onboarding/goal': {
+      id: '/onboarding/goal'
+      path: '/goal'
+      fullPath: '/onboarding/goal'
+      preLoaderRoute: typeof OnboardingGoalRouteImport
       parentRoute: typeof OnboardingRoute
     }
     '/onboarding/country': {
@@ -111,12 +153,16 @@ declare module '@tanstack/react-router' {
 
 interface OnboardingRouteChildren {
   OnboardingCountryRoute: typeof OnboardingCountryRoute
+  OnboardingGoalRoute: typeof OnboardingGoalRoute
   OnboardingLanguageRoute: typeof OnboardingLanguageRoute
+  OnboardingProfileRoute: typeof OnboardingProfileRoute
 }
 
 const OnboardingRouteChildren: OnboardingRouteChildren = {
   OnboardingCountryRoute: OnboardingCountryRoute,
+  OnboardingGoalRoute: OnboardingGoalRoute,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
+  OnboardingProfileRoute: OnboardingProfileRoute,
 }
 
 const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
