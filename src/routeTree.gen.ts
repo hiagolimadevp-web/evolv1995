@@ -10,15 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OnboardingProfileRouteImport } from './routes/onboarding.profile'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
 import { Route as OnboardingGoalRouteImport } from './routes/onboarding.goal'
 import { Route as OnboardingCountryRouteImport } from './routes/onboarding.country'
+import { Route as AppTodayRouteImport } from './routes/_app.today'
+import { Route as AppHomeRouteImport } from './routes/_app.home'
 
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -46,10 +53,22 @@ const OnboardingCountryRoute = OnboardingCountryRouteImport.update({
   path: '/country',
   getParentRoute: () => OnboardingRoute,
 } as any)
+const AppTodayRoute = AppTodayRouteImport.update({
+  id: '/today',
+  path: '/today',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
+  '/home': typeof AppHomeRoute
+  '/today': typeof AppTodayRoute
   '/onboarding/country': typeof OnboardingCountryRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
@@ -58,6 +77,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRouteWithChildren
+  '/home': typeof AppHomeRoute
+  '/today': typeof AppTodayRoute
   '/onboarding/country': typeof OnboardingCountryRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
@@ -66,7 +87,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRouteWithChildren
+  '/_app/home': typeof AppHomeRoute
+  '/_app/today': typeof AppTodayRoute
   '/onboarding/country': typeof OnboardingCountryRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
@@ -77,6 +101,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/onboarding'
+    | '/home'
+    | '/today'
     | '/onboarding/country'
     | '/onboarding/goal'
     | '/onboarding/language'
@@ -85,6 +111,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/onboarding'
+    | '/home'
+    | '/today'
     | '/onboarding/country'
     | '/onboarding/goal'
     | '/onboarding/language'
@@ -92,7 +120,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_app'
     | '/onboarding'
+    | '/_app/home'
+    | '/_app/today'
     | '/onboarding/country'
     | '/onboarding/goal'
     | '/onboarding/language'
@@ -101,6 +132,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   OnboardingRoute: typeof OnboardingRouteWithChildren
 }
 
@@ -111,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -148,8 +187,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingCountryRouteImport
       parentRoute: typeof OnboardingRoute
     }
+    '/_app/today': {
+      id: '/_app/today'
+      path: '/today'
+      fullPath: '/today'
+      preLoaderRoute: typeof AppTodayRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/home': {
+      id: '/_app/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
+
+interface AppRouteChildren {
+  AppHomeRoute: typeof AppHomeRoute
+  AppTodayRoute: typeof AppTodayRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppHomeRoute: AppHomeRoute,
+  AppTodayRoute: AppTodayRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface OnboardingRouteChildren {
   OnboardingCountryRoute: typeof OnboardingCountryRoute
@@ -171,6 +236,7 @@ const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   OnboardingRoute: OnboardingRouteWithChildren,
 }
 export const routeTree = rootRouteImport
