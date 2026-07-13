@@ -68,8 +68,8 @@ function Water() {
         </div>
       </div>
 
-      <p className="rounded-2xl bg-primary/10 p-4 text-xs leading-relaxed text-primary">
-        {t("greatJob")} {t("keepGoing")}
+      <p className="rounded-2xl bg-primary/10 p-4 text-xs leading-relaxed text-primary animate-fade-in">
+        {pct >= 1 ? `${t("greatJob")} ${t("keepGoingGentle")}` : t("keepGoingGentle")}
       </p>
     </div>
   );
