@@ -7,14 +7,23 @@ export const Route = createFileRoute("/onboarding")({
 const STEPS = [
   "/onboarding/language",
   "/onboarding/country",
+  "/onboarding/units",
   "/onboarding/profile",
   "/onboarding/goal",
+  "/onboarding/summary",
 ];
 
 function OnboardingLayout() {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const isWelcome = path === "/onboarding/welcome";
   const idx = Math.max(0, STEPS.indexOf(path));
   const pct = ((idx + 1) / STEPS.length) * 100;
+
+  if (isWelcome) {
+    // Welcome screen has its own full-bleed layout.
+    return <Outlet />;
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-6 pt-12 pb-8">
