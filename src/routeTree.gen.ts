@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OnboardingUnitsRouteImport } from './routes/onboarding.units'
 import { Route as OnboardingProfileRouteImport } from './routes/onboarding.profile'
 import { Route as OnboardingLanguageRouteImport } from './routes/onboarding.language'
 import { Route as OnboardingGoalRouteImport } from './routes/onboarding.goal'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingUnitsRoute = OnboardingUnitsRouteImport.update({
+  id: '/units',
+  path: '/units',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const OnboardingProfileRoute = OnboardingProfileRouteImport.update({
   id: '/profile',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
+  '/onboarding/units': typeof OnboardingUnitsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
+  '/onboarding/units': typeof OnboardingUnitsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/onboarding/goal': typeof OnboardingGoalRoute
   '/onboarding/language': typeof OnboardingLanguageRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
+  '/onboarding/units': typeof OnboardingUnitsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/onboarding/goal'
     | '/onboarding/language'
     | '/onboarding/profile'
+    | '/onboarding/units'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/onboarding/goal'
     | '/onboarding/language'
     | '/onboarding/profile'
+    | '/onboarding/units'
   id:
     | '__root__'
     | '/'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/onboarding/goal'
     | '/onboarding/language'
     | '/onboarding/profile'
+    | '/onboarding/units'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,6 +206,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/units': {
+      id: '/onboarding/units'
+      path: '/units'
+      fullPath: '/onboarding/units'
+      preLoaderRoute: typeof OnboardingUnitsRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/onboarding/profile': {
       id: '/onboarding/profile'
@@ -284,6 +303,7 @@ interface OnboardingRouteChildren {
   OnboardingGoalRoute: typeof OnboardingGoalRoute
   OnboardingLanguageRoute: typeof OnboardingLanguageRoute
   OnboardingProfileRoute: typeof OnboardingProfileRoute
+  OnboardingUnitsRoute: typeof OnboardingUnitsRoute
 }
 
 const OnboardingRouteChildren: OnboardingRouteChildren = {
@@ -291,6 +311,7 @@ const OnboardingRouteChildren: OnboardingRouteChildren = {
   OnboardingGoalRoute: OnboardingGoalRoute,
   OnboardingLanguageRoute: OnboardingLanguageRoute,
   OnboardingProfileRoute: OnboardingProfileRoute,
+  OnboardingUnitsRoute: OnboardingUnitsRoute,
 }
 
 const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
