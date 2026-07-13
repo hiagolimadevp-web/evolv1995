@@ -47,7 +47,7 @@ function CountryStep() {
         <Button variant="ghost" className="h-12 flex-1 rounded-2xl" onClick={() => nav({ to: "/onboarding/language" })}>
           {t("back")}
         </Button>
-        <Button className="h-12 flex-[2] rounded-2xl text-base" onClick={() => nav({ to: "/onboarding/profile" })}>
+        <Button className="h-12 flex-[2] rounded-2xl text-base" onClick={() => nav({ to: "/onboarding/units" })}>
           {t("continue")}
         </Button>
       </div>
