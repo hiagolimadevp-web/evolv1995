@@ -27,14 +27,12 @@ function GoalStep() {
   const nav = useNavigate();
   const profile = useAppStore((s) => s.profile);
   const setProfile = useAppStore((s) => s.setProfile);
-  const complete = useAppStore((s) => s.completeOnboarding);
   const [goal, setGoal] = useState<MainGoal>(profile?.mainGoal ?? "health");
   const [why, setWhy] = useState(profile?.why ?? "");
 
-  const finish = () => {
+  const next = () => {
     setProfile({ mainGoal: goal, why });
-    complete();
-    nav({ to: "/home" });
+    nav({ to: "/onboarding/summary" });
   };
 
   return (
@@ -82,8 +80,8 @@ function GoalStep() {
         <Button variant="ghost" className="h-12 flex-1 rounded-2xl" onClick={() => nav({ to: "/onboarding/profile" })}>
           {t("back")}
         </Button>
-        <Button className="h-12 flex-[2] rounded-2xl text-base" onClick={finish}>
-          {t("finish")}
+        <Button className="h-12 flex-[2] rounded-2xl text-base" onClick={next}>
+          {t("continue")}
         </Button>
       </div>
     </div>
