@@ -96,7 +96,7 @@ function ProfileStep() {
       </div>
 
       <div className="mt-auto flex gap-2 pt-8">
-        <Button variant="ghost" className="h-12 flex-1 rounded-2xl" onClick={() => nav({ to: "/onboarding/country" })}>
+        <Button variant="ghost" className="h-12 flex-1 rounded-2xl" onClick={() => nav({ to: "/onboarding/units" })}>
           {t("back")}
         </Button>
         <Button disabled={!canContinue} className="h-12 flex-[2] rounded-2xl text-base" onClick={submit}>
