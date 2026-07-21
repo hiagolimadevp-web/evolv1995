@@ -55,6 +55,28 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function updateStreakForToday(get: () => State, set: (partial: Partial<State>) => void) {
+  const state = get();
+  const t = today();
+
+  const hasProgress =
+    state.daily.waterMl > 0 ||
+    Object.values(state.daily.checklist).some(Boolean);
+
+  if (!hasProgress || state.lastStreakDate === t) return;
+
+  const yesterday = new Date(Date.now() - 86400000)
+    .toISOString()
+    .slice(0, 10);
+
+  const nextStreak =
+    state.lastStreakDate === yesterday
+      ? state.streak + 1
+      : 1;
+
+  set({ streak: nextStreak, lastStreakDate: t });
+}
+
 const defaultSettings: Settings = {
   language: "en",
   country: "PT",
@@ -105,24 +127,18 @@ export const useAppStore = create<State>()(
       addWater: (ml) => {
         get().ensureToday();
         set({ daily: { ...get().daily, waterMl: Math.max(0, get().daily.waterMl + ml) } });
+        updateStreakForToday(get, set);
       },
       setWater: (ml) => {
         get().ensureToday();
         set({ daily: { ...get().daily, waterMl: Math.max(0, ml) } });
+        updateStreakForToday(get, set);
       },
       toggleCheck: (key) => {
         get().ensureToday();
         const cl = { ...get().daily.checklist, [key]: !get().daily.checklist[key] };
         set({ daily: { ...get().daily, checklist: cl } });
-        // streak: if all core keys checked today, bump streak once
-        const core = ["water", "breakfast", "lunch", "dinner"];
-        const done = core.every((k) => cl[k]);
-        const t = today();
-        if (done && get().lastStreakDate !== t) {
-          const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-          const s = get().lastStreakDate === yesterday ? get().streak + 1 : 1;
-          set({ streak: s, lastStreakDate: t });
-        }
+        updateStreakForToday(get, set);
       },
       ensureToday: () => {
         const t = today();
